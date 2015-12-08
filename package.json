@@ -1,24 +1,19 @@
 {
-  "name": "Mapr",
-  "description": "Map Based Events Planning",
+  "name": "simplebookshelfapp",
   "version": "1.0.0",
-  "private": true,
-  "author": "Alex Donley",
-  "main": "app.js",
+  "description": "Simple Bookshelf App made to see how bookshelf works",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mendim Mestani",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "*",
-    "bookshelf": "*",
-    "cookie-parser": "*",
-    "debug": "*",
-    "express": "*",
-    "knex": "*",
-    "morgan": "*",
-    "passport": "*",
-    "passport-local": "*",
-    "ejs":"*",
-    "pg": "*",
-    "bcrypt-nodejs": "*",
-    "react": "*",
-    "serve-favicon": "*"
+    "body-parser": "^1.10.0",
+    "bookshelf": "^0.7.9",
+    "express": "^4.10.4",
+    "knex": "^0.7.3",
+    "pg": "^2.5.3",
+    "path": "^0.4.9"
   }
 }
