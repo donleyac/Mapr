@@ -3,7 +3,7 @@ var Model = require('./../models/User');
 /* Save a user */
 var saveUser = function (req, res) {
 	new Model.User({
-		EMAIL: req.body.email,
+		EMAIL_ADDRESS: req.body.email,
 		FIRST_NAME: req.body.first_name,
 		LAST_NAME: req.body.last_name,
 	}).save()

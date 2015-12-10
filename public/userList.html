@@ -15,10 +15,10 @@
 
         <tbody>
         <tr ng-repeat="user in users">
-            <td><a href="#/user-details/{{user.id}}" ng-click="userDetails(user.id)">{{ user.username }}</a></td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.first_name }}</td>
-            <td>{{ user.last_name }}</td>
+            <td><a href="#/user-details/{{user.id}}" ng-click="userDetails(user.id)">{{ user.USER_ACCOUNT_ID }}</a></td>
+            <td>{{ user.EMAIL_ADDRESS }}</td>
+            <td>{{ user.FIRST_NAME }}</td>
+            <td>{{ user.LAST_NAME }}</td>
             <td>
                 <button class="btn btn-sm btn-danger" ng-click="deleteUser(user.id)"> Delete</button>
             </td>
