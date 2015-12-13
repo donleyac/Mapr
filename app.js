@@ -34,11 +34,11 @@ passport.use(new LocalStrategy(function(email, password, done) {
 }));
 
 passport.serializeUser(function(user, done) {
-	done(null, user.email);
+	done(null,user.email);
 });
 
 passport.deserializeUser(function(user, done) {
-	new Model.User({EMAIL_ADDRESS: user.email}).fetch().then(function(user) {
+	new Model.Users({EMAIL_ADDRESS: user.email}).fetch().then(function(user) {
 		done(null, user);
 	});
 });
