@@ -37,8 +37,8 @@ passport.serializeUser(function(user, done) {
 	done(null, user.email);
 });
 
-passport.deserializeUser(function(email, done) {
-	new Model.User({EMAIL_ADDRESS: email}).fetch().then(function(user) {
+passport.deserializeUser(function(user, done) {
+	new Model.User({EMAIL_ADDRESS: user.email}).fetch().then(function(user) {
 		done(null, user);
 	});
 });

@@ -18,6 +18,8 @@
     "bcrypt-nodejs": "*",
     "ejs": "*",
     "passport": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "express-session": "*",
+    "cookie-parser": "*"
   }
 }
