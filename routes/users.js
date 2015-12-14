@@ -8,7 +8,9 @@ var Model = require('../models/User');
 
 // index
 var index = function(req, res, next) {
+    console.log("INDEX");
     if(!req.isAuthenticated()) {
+        console.log("INDEX !AUTHENTICATED");
         res.redirect('/signin');
     } else {
 
@@ -38,12 +40,15 @@ var signInPost = function(req, res, next) {
         }
 
         if(!user) {
+            console.log(" SIGNINPOST NOT USER");
             return res.render('signin', {title: 'Sign In', errorMessage: info.message});
         }
         return req.logIn(user, function(err) {
+            console.log("SIGNINPOST LOGGED IN")
             if(err) {
                 return res.render('signin', {title: 'Sign In', errorMessage: err.message});
             } else {
+                console.log("SIGNINPOST REDIRECT INDEX")
                 return res.redirect('/');
             }
         });
@@ -65,7 +70,7 @@ var signUpGet = function(req, res, next) {
 var signUpPost = function(req, res, next) {
     var user = req.body;
     var usernamePromise;
-    usernamePromise = new Model.Users({EMAIL_ADDRESS: user.email}).fetch();
+    usernamePromise = new Model.Users({EMAIL_ADDRESS: user.username}).fetch();
 
     return usernamePromise.then(function(model) {
         if(model) {
@@ -78,16 +83,16 @@ var signUpPost = function(req, res, next) {
             var hash = bcrypt.hashSync(password);
 
             var signUpUser = new Model.Users({
-                EMAIL_ADDRESS: user.email,
+                EMAIL_ADDRESS: user.username,
                 FIRST_NAME: user.first_name,
                 LAST_NAME: user.last_name,
                 PASSWORD: hash
             });
-
+            console.log(user.username);
+            console.log(user.password);
             signUpUser.save().then(function(model) {
                 // sign in the newly registered user
                 signInPost(req, res, next);
-                //res.json(model);
             });
         }
     })

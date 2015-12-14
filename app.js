@@ -17,28 +17,37 @@ var Model = require('./models/User');
 
 var app = express();
 
-passport.use(new LocalStrategy(function(email, password, done) {
-	new Model.Users({EMAIL_ADDRESS: email}).fetch().then(function(data) {
+passport.use(new LocalStrategy(function(username, password, done) {
+	new Model.Users({'EMAIL_ADDRESS': username}).fetch().then(function(data) {
+		console.log("Username");
+		console.log(username);
+		console.log("Inputted Password:");
+		console.log(password);
+		console.log("Actual Password");
+		console.log(data.get('PASSWORD'));
 		var user = data;
 		if(user === null) {
 			return done(null, false, {message: 'Invalid username or password'});
 		} else {
 			user = data.toJSON();
-			if(!bcrypt.compareSync(password, user.password)) {
-				return done(null, false, {message: 'Invalid email or password'});
+			console.log("LOCAL_STRATEGY user to JSON");
+			if(!bcrypt.compareSync(password, data.get('PASSWORD'))) {
+				return done(null, false, {message: 'Invalid username or password'});
 			} else {
+				console.log("Successful Password");
 				return done(null, user);
 			}
 		}
 	});
 }));
 
+
 passport.serializeUser(function(user, done) {
-	done(null,user.email);
+	done(null,user);
 });
 
 passport.deserializeUser(function(user, done) {
-	new Model.Users({EMAIL_ADDRESS: user.email}).fetch().then(function(user) {
+	new Model.Users({EMAIL_ADDRESS: user.username}).fetch().then(function(user) {
 		done(null, user);
 	});
 });

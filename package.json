@@ -1,8 +1,8 @@
 {
-  "name": "simplebookshelfapp",
+  "name": "EventMapper",
   "version": "1.0.0",
-  "description": "Simple Bookshelf App made to see how bookshelf works",
-  "main": "server.js",
+  "description": "Mapping the Events of the world",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
