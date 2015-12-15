@@ -1,5 +1,3 @@
-Node + Postgres + Express Simple Account creation
-Need to merge with preexisting login system
-
-<h1> Alex Donley <h1>
-<h1> Ali Shaikh <h1>
+ExpressJs + Passport.js + MySQL Authentication
+===========================
+An authentication system using passportjs and mysql as the data storage for the users, while using expressjs module to facilitate the routing.
