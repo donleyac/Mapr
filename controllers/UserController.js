@@ -11,13 +11,10 @@ var index = function(req, res, next)
 {
    if(!req.isAuthenticated()) 
    {
-      console.log("DIDNT WORK");
 
       res.redirect('/signin');
    } else 
    {
-      console.log("WORKED");
-
       var user = req.user;
 
       if(user !== undefined) 
@@ -92,8 +89,7 @@ var signUp = function(req, res, next)
 var signUpPost = function(req, res, next) 
 {
    var user = req.body;
-   var usernamePromise = null;
-   usernamePromise = new Model.User(
+   var usernamePromise = new Model.User(
       {EMAIL_ADDRESS: user.username}).fetch();
 
    return usernamePromise.then(function(model) 
@@ -147,6 +143,15 @@ var notFound404 = function(req, res, next)
       {title: '404 Not Found'});
 };
 
+var loggedIn = function(req,res,next) {
+    if (req.user) {
+        next();
+    } else {
+        res.render('signin',
+            {title: 'Sign In'});
+    }
+};
+
 // export functions
 /**************************************/
 // index
@@ -169,3 +174,6 @@ module.exports.signOut = signOut;
 
 // 404 not found
 module.exports.notFound404 = notFound404;
+
+//logged in get
+module.exports.loggedIn = loggedIn;

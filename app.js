@@ -10,32 +10,24 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 // custom libraries
-// routes
-var route = require('./controllers/UserController');
+// controllers
+var userController = require('./controllers/UserController');
+var eventController = require('./controllers/EventController');
 // model
-var Model = require('./models/userModel');
+var userModel = require('./models/userModel');
 
 var app = express();
 
 passport.use(new LocalStrategy(function(username, password, done) {
-   new Model.User({EMAIL_ADDRESS: username}).fetch().then(function(data) {
+   new userModel.User({EMAIL_ADDRESS: username}).fetch().then(function(data) {
       var user = data;
-      console.log("Username");
-      console.log(username);
-      console.log("Inputted Password:");
-      console.log(password);
-      console.log("Actual Password");
-      console.log(data.get('PASSWORD'));
       if(user === null) {
          return done(null, false, {message: 'Invalid username or password'});
       } else {
          user = data.toJSON();
-         console.log("LOCAL_STRATEGY user to JSON");
          if(!bcrypt.compareSync(password, data.get('PASSWORD'))) {
-            console.log("Invalid username or pass");
             return done(null, false, {message: 'Invalid username or password'});
          } else {
-            console.log("Successful Password");
             return done(null, user);
          }
       }
@@ -47,7 +39,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
-   new Model.User({EMAIL_ADDRESS: username}).fetch().then(function(user) {
+   new userModel.User({EMAIL_ADDRESS: username}).fetch().then(function(user) {
       done(null, user);
    });
 });
@@ -65,29 +57,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // GET
-app.get('/', route.index);
+app.get('/', userController.index);
 
 // signin
 // GET
-app.get('/signin', route.signIn);
+app.get('/signin', userController.signIn);
 // POST
-app.post('/signin', route.signInPost);
+app.post('/signin', userController.signInPost);
 
 // signup
 // GET
-app.get('/signup', route.signUp);
+app.get('/signup', userController.signUp);
 // POST
-app.post('/signup', route.signUpPost);
+app.post('/signup', userController.signUpPost);
 
 // logout
 // GET
-app.get('/signout', route.signOut);
+app.get('/signout', userController.signOut);
 
+//create_event
+//POST
+app.get('/create_event', eventController.createEvent);
 /********************************/
 
 /********************************/
 // 404 not found
-app.use(route.notFound404);
+app.use(userController.notFound404);
 
 var server = app.listen(app.get('port'), function(err) {
    if(err) throw err;

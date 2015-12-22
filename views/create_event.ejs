@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+</head>
+<body>
+<h2>Create Event/h2>
+<form method="post" action="/signup">
+    <% if(typeof(errorMessage) !== 'undefined') {%>
+    <span><%= errorMessage %></span>
+    <% } %>
+    <p>
+        <label for="username">Email</label>
+        <input type="text" name="username" id="username"
+               placeholder="username" required="true"/>
+    </p>
+    <p>
+        <label for="password">password</label>
+        <input type="text" name="password" id="password"
+               placeholder="password" required="true"/>
+    </p>
+    <p>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name"
+               placeholder="name" required="true"/>
+    </p>
+    <p>
+        <input type="submit" name="signup" id="signup" value="register"/>
+        <a href="/signin" title="sign in">sign in</a>
+    </p>
+</form>
+</h2>
+</body>
+</html>
