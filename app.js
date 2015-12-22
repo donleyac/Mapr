@@ -11,9 +11,9 @@ var LocalStrategy = require('passport-local').Strategy;
 
 // custom libraries
 // routes
-var route = require('./route');
+var route = require('./controllers/UserController');
 // model
-var Model = require('./model');
+var Model = require('./models/userModel');
 
 var app = express();
 

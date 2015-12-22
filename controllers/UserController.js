@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 // custom library
 // model
-var Model = require('./model');
+var Model = require('./../models/userModel');
 
 // index
 var index = function(req, res, next) 
@@ -114,8 +114,7 @@ var signUpPost = function(req, res, next)
             {
                EMAIL_ADDRESS: user.username, 
                PASSWORD: hash,
-               FIRST_NAME: user.firstName,
-               LAST_NAME: user.lastName
+               NAME: user.name
             });
 
          signUpUser.save().then(function(model) 
