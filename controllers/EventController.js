@@ -49,13 +49,13 @@ var createEventPost = function(req, res, next) {
             ADDRESS_LINE2: event.address_line2,
             CITY: event.city,
             STATE_PROVIDENCE: event.state,
-            LAT: 5435345.54534,
-            LONG: 534453.53453453,
-            PRICE: 0,
+            LAT: 5435345,
+            LONG: 534453,
+            PRICE: 10,
             EVENT_STATE: event.event_start,
             EVENT_END: event.event_end,
-            NUM_RECC: event.num_recc,
-            NUM_DIS: event.num_dis,
+            NUM_RECC: 0,
+            NUM_DIS: 0,
             HOST_ID: user.USER_ACCOUNT_ID,
             CATEGORY_ID: 1
         });
@@ -67,7 +67,10 @@ var createEventPost = function(req, res, next) {
         redirector(req, res, next);
         //console.log("Created new event model");
         
-    });
+    }).otherwise(function(err) {
+   console.log(err.stack);
+});
+
 };
 
 
