@@ -50,9 +50,12 @@ app.set('view engine', 'ejs');
 
 app.use(cookieParser());
 app.use(bodyParser());
-app.use(session({secret: 'secret strategic xxzzz code',
- resave: true,
-    saveUninitialized: true}));
+app.use(session(
+   {
+      secret: 'secret strategic xxzzz code',
+      resave: true,
+      saveUninitialized: true
+   }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -76,8 +79,11 @@ app.post('/signup', userController.signUpPost);
 app.get('/signout', userController.signOut);
 
 //create_event
-//POST
+//GET
 app.get('/create_event', eventController.createEvent);
+
+//POST
+app.post('/create_event', eventController.createEventPost);
 /********************************/
 
 /********************************/

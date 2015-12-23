@@ -8,8 +8,9 @@ var Category = DB.Model.extend({
 var getCategoryId = function (category_name) {
     new Model.Category({CATEGORY_NAME: category_name})
         .fetch()
-        .then(function(model)  {
-            return model.get('CATEGORY_ID')
+        .then(function(model)  
+        {
+            return model.get('CATEGORY_ID');
         });
 };
 

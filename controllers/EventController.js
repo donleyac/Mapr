@@ -5,17 +5,43 @@ var userController = require('./UserController');
 
 
 // sign up
-// POST
+// GET
 var createEvent = function(req, res, next) {
 
+    console.log(req.user);
     userController.loggedIn(req,res,next);
+    console.log("Called the event GET");
 
+       var user = req.user;
+
+      if(user !== undefined) 
+      {
+         user = user.toJSON();
+      }
+      console.log(user);
     res.render('create_event',
         {title: 'Create Event'});
 
-    var event = req.body;
+    
+};
 
-    var signUpUser = new eventModel.Event(
+//POST
+var createEventPost = function(req, res, next) {
+
+    console.log("Called the event POST");
+
+    var event = req.body;
+   
+
+      var user = req.user;
+
+      if(user !== undefined) 
+      {
+         user = user.toJSON();
+      }
+
+
+    var createNewEvent = new eventModel.Event(
         {
             NAME: event.name,
             DESCRIPTION: event.description,
@@ -23,21 +49,33 @@ var createEvent = function(req, res, next) {
             ADDRESS_LINE2: event.address_line2,
             CITY: event.city,
             STATE_PROVIDENCE: event.state,
-            LAT: event.lat,
-            LONG: event.long,
-            PRICE: event.price,
+            LAT: 5435345.54534,
+            LONG: 534453.53453453,
+            PRICE: 0,
             EVENT_STATE: event.event_start,
             EVENT_END: event.event_end,
             NUM_RECC: event.num_recc,
             NUM_DIS: event.num_dis,
-            HOST_ID: req.user.USER_ACCOUNT_ID,
-            CATEGORY_ID: categoryModel.getCategoryId(req.body.category_name)
+            HOST_ID: user.USER_ACCOUNT_ID,
+            CATEGORY_ID: 1
         });
+    console.log(createNewEvent);
 
-    signUpUser.save().then(function (model) {
-        // sign in the newly registered user
-        res.redirect('/');
+    createNewEvent.save().then(function(model) 
+    {
+
+        redirector(req, res, next);
+        //console.log("Created new event model");
+        
     });
 };
 
+
+var redirector = function(req, res, next) {
+    console.log("Created new event model already");
+    res.redirect('/');
+};
+
 module.exports.createEvent = createEvent;
+
+module.exports.createEventPost = createEventPost;

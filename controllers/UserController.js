@@ -98,7 +98,8 @@ var signUpPost = function(req, res, next)
       {
          res.render('signup', 
             {title: 'signup', errorMessage: 'username already exists'});
-      } else 
+      } 
+      else 
       {
          //****************************************************//
          // MORE VALIDATION GOES HERE(E.G. PASSWORD VALIDATION)
@@ -144,11 +145,10 @@ var notFound404 = function(req, res, next)
 };
 
 var loggedIn = function(req,res,next) {
-    if (req.user) {
-        next();
+    if (req.isAuthenticated()) {
+        
     } else {
-        res.render('signin',
-            {title: 'Sign In'});
+        res.redirect('/signin');
     }
 };
 
