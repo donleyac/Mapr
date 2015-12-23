@@ -5,24 +5,54 @@
 </head>
 <body>
 <h2>Create Event/h2>
-<form method="post" action="/signup">
+<form method="post" action="/create_event">
     <% if(typeof(errorMessage) !== 'undefined') {%>
     <span><%= errorMessage %></span>
     <% } %>
     <p>
-        <label for="username">Email</label>
-        <input type="text" name="username" id="username"
-               placeholder="username" required="true"/>
-    </p>
-    <p>
-        <label for="password">password</label>
-        <input type="text" name="password" id="password"
-               placeholder="password" required="true"/>
-    </p>
-    <p>
-        <label for="name">Name</label>
+        <label for="name">Event Name</label>
         <input type="text" name="name" id="name"
                placeholder="name" required="true"/>
+    </p>
+    <p>
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description"
+               placeholder="description" required="true"/>
+    </p>
+    <p>
+        <label for="address_line1">Address Line 1</label>
+        <input type="text" name="address_line1" id="address_line1"
+               placeholder="address_line1" required="true"/>
+    </p>
+    <p>
+        <label for="address_line1">Address Line 2</label>
+        <input type="text" name="address_line2" id="address_line2"
+               placeholder="address_line2" required="true"/>
+    </p>
+    <p>
+        <label for="city">City</label>
+        <input type="text" name="city" id="city"
+               placeholder="city" required="true"/>
+    </p>
+    <p>
+        <label for="state">Start</label>
+        <input type="text" name="state" id="state"
+               placeholder="state" required="true"/>
+    </p>
+    <p>
+        <label for="event_start">Event Start</label>
+        <input type="text" name="event_start" id="event_start"
+               placeholder="event_start" required="true"/>
+    </p>
+    <p>
+        <label for="event_end">Event End</label>
+        <input type="text" name="event_end" id="event_end"
+               placeholder="event_end" required="true"/>
+    </p>
+    <p>
+        <label for="category_name">Category</label>
+        <input type="text" name="category_name" id="category_name"
+               placeholder="category_name" required="true"/>
     </p>
     <p>
         <input type="submit" name="signup" id="signup" value="register"/>

@@ -10,6 +10,9 @@ var createEvent = function(req, res, next) {
 
     userController.loggedIn(req,res,next);
 
+    res.render('create_event',
+        {title: 'Create Event'});
+
     var event = req.body;
 
     var signUpUser = new eventModel.Event(
@@ -28,7 +31,7 @@ var createEvent = function(req, res, next) {
             NUM_RECC: event.num_recc,
             NUM_DIS: event.num_dis,
             HOST_ID: req.user.USER_ACCOUNT_ID,
-            CATEGORY_ID: categoryModel.getCategoryId(req,res,next)
+            CATEGORY_ID: categoryModel.getCategoryId(req.body.category_name)
         });
 
     signUpUser.save().then(function (model) {
