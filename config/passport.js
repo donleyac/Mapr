@@ -15,7 +15,10 @@ module.exports = function(passport) {
         });
     });
 
-    passport.use('local-login', new LocalStrategy(function (username, password, done) {
+    passport.use('local-signin', new LocalStrategy( {
+        passReqToCallback : true
+    },
+    function(req, username, password, done) {
         new userModel.User({EMAIL_ADDRESS: username}).fetch().then(function (data) {
             var user = data;
             if (user === null) {
@@ -28,6 +31,39 @@ module.exports = function(passport) {
                     return done(null, user);
                 }
             }
+        });
+    }));
+
+    passport.use('local-signup', new LocalStrategy({
+        passReqToCallback : true
+    },
+        function (req, username, password, done)
+        {
+        new userModel.User({EMAIL_ADDRESS: username}).fetch().then(function (model) {
+            if (model) {
+                res.render('signup',
+                    {title: 'signup', errorMessage: 'username already exists'});
+            } else {
+                //****************************************************//
+                // MORE VALIDATION GOES HERE(E.G. PASSWORD VALIDATION)
+                //****************************************************//
+                var hash = bcrypt.hashSync(password);
+
+                var signUpUser = new userModel.User(
+                    {
+                        EMAIL_ADDRESS: username,
+                        PASSWORD: hash,
+                        NAME: req.body.name
+                    });
+                signUpUser.save().then(function(data)
+                {
+                    return done(null, data.toJSON());
+                }).otherwise(function(err) {
+                    console.log(err.stack);
+                });
+            }
+        }).otherwise(function(err) {
+            console.log(err.stack);
         });
     }));
 };
