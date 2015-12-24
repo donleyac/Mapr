@@ -2,8 +2,8 @@ var Bookshelf = require('bookshelf');
 
 var config = {
     host: 'localhost',  // your host
-    user: 'indycorps', // your database user
-    password: 'password', // your database password
+    user: 'postgres', // your database user
+    password: 'postgres', // your database password
     database: 'eventmapper',
     charset: 'UTF8_GENERAL_CI'
 };

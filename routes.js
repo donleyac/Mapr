@@ -34,6 +34,9 @@ module.exports = function(app, passport) {
     app.get('/create_event', userController.isLoggedIn, eventController.createEvent);
     app.post('/create_event', eventController.createEventPost);
 
+    //view event 
+    app.get('/event', eventController.viewSingleEvent);
+
     // 404 not found
     app.use(userController.notFound404);
 };

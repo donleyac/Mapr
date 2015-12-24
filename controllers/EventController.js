@@ -78,5 +78,24 @@ var redirector = function(req, res, next) {
     res.redirect('/');
 };
 
+
+// GET
+var viewSingleEvent = function(req, res, next) {
+
+    var eventID = req.query.eventID;
+    if(eventID!==null)
+    {
+        eventID=1;
+    }
+    var event = new eventModel.Event({EVENT_ID : eventID}).fetch().then(function(model)
+    {
+        console.log(model);
+
+        res.render('event',
+            {title: 'View Event: ', event : event});
+    });
+};
+
 module.exports.createEvent = createEvent;
 module.exports.createEventPost = createEventPost;
+module.exports.viewSingleEvent = viewSingleEvent;
