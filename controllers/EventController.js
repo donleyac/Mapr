@@ -83,16 +83,16 @@ var redirector = function(req, res, next) {
 var viewSingleEvent = function(req, res, next) {
 
     var eventID = req.query.eventID;
-    if(eventID!==null)
+    if(eventID===null)
     {
         eventID=1;
     }
-    var event = new eventModel.Event({EVENT_ID : eventID}).fetch().then(function(model)
+    var event = new eventModel.Event({EVENT_ID : eventID}).fetch().then(function(data)
     {
-        console.log(model);
-
+        var newEvent = data;
+        console.log(newEvent);
         res.render('event',
-            {title: 'View Event: ', event : event});
+            {title: 'View Event: ', event : newEvent});
     });
 };
 
