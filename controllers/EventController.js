@@ -61,7 +61,7 @@ var createEventPost = function(req, res, next) {
         //var newRes = res.toJSON();
         latitude = res[0].latitude;
         longitude = res[0].longitude;
-
+       // var point = [latitude, longitude];
 
     }).then(function(model)
     {
@@ -75,10 +75,9 @@ var createEventPost = function(req, res, next) {
                 ADDRESS_LINE2: event.address_line2,
                 CITY: event.city,
                 STATE_PROVIDENCE: event.state,
-                LAT: latitude,
-                LONG: longitude,
+                COORDINATES: [latitude, longitude],
                 PRICE: 10,
-                EVENT_STATE: event.event_start,
+                EVENT_START: event.event_start,
                 EVENT_END: event.event_end,
                 NUM_RECC: 0,
                 NUM_DIS: 0,
