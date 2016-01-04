@@ -1,22 +1,20 @@
 // vendor libraries
 var express = require('express');
+var app = express();
+var passport = require('passport');
+var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 var ejs = require('ejs');
 var path = require('path');
-var passport = require('passport');
+
 var LocalStrategy = require('passport-local').Strategy;
 
-// custom libraries
-// controllers
-var userController = require('./controllers/UserController');
-var eventController = require('./controllers/EventController');
 // model
 var userModel = require('./models/userModel');
 
-var app = express();
 
 passport.use(new LocalStrategy(function(username, password, done) {
    new userModel.User({EMAIL_ADDRESS: username}).fetch().then(function(data) {
@@ -44,12 +42,13 @@ passport.deserializeUser(function(username, done) {
    });
 });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3000); //launch application at this port
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); // set up ejs for templating
 
-app.use(cookieParser());
-app.use(bodyParser());
+app.use(morgan('dev')); //log every request to the console
+app.use(cookieParser()); //read cookies (needed for auth)
+app.use(bodyParser()); //get information from html forms
 app.use(session(
    {
       secret: 'secret strategic xxzzz code',
@@ -59,37 +58,10 @@ app.use(session(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// GET
-app.get('/', userController.index);
+// routes ======================================================================
+require('./routes.js')(app, passport);
 
-// signin
-// GET
-app.get('/signin', userController.signIn);
-// POST
-app.post('/signin', userController.signInPost);
-
-// signup
-// GET
-app.get('/signup', userController.signUp);
-// POST
-app.post('/signup', userController.signUpPost);
-
-// logout
-// GET
-app.get('/signout', userController.signOut);
-
-//create_event
-//GET
-app.get('/create_event', eventController.createEvent);
-
-//POST
-app.post('/create_event', eventController.createEventPost);
-/********************************/
-
-/********************************/
-// 404 not found
-app.use(userController.notFound404);
-
+// launch ======================================================================
 var server = app.listen(app.get('port'), function(err) {
    if(err) throw err;
 

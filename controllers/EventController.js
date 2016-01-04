@@ -14,8 +14,6 @@ var geocoder = require('node-geocoder')(geocoderProvider, httpAdapter, extra);
 
 // GET
 var createEvent = function(req, res, next) {
-    //User Logged in Check
-    userController.loggedIn(req,res,next);
     res.render('create_event',
         {title: 'Create Event'});
 };

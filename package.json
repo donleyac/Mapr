@@ -18,6 +18,8 @@
       "passport-google": "*",
       "pg": "*",
       "bookshelf": "0.5",
-      "node-geocoder": "*"
+      "node-geocoder": "*",
+      "morgan": "*",
+      "connect-flash": "*"
    }
 }

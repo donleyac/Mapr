@@ -144,10 +144,13 @@ var notFound404 = function(req, res, next)
       {title: '404 Not Found'});
 };
 
-var loggedIn = function(req,res,next) {
-    if (!req.isAuthenticated()) {
-       res.redirect('/signin');
-    }
+var isLoggedIn = function(req,res,next) {
+   // if user is authenticated in the session, carry on
+   if (req.isAuthenticated())
+      return next();
+
+   // if they aren't redirect them to the home page
+   res.redirect('/signin');
 };
 
 // export functions
@@ -174,4 +177,4 @@ module.exports.signOut = signOut;
 module.exports.notFound404 = notFound404;
 
 //logged in get
-module.exports.loggedIn = loggedIn;
+module.exports.isLoggedIn = isLoggedIn;
