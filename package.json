@@ -13,6 +13,9 @@
       "ejs": "*",
       "passport": "*",
       "passport-local": "*",
+      "passport-facebook": "*",
+      "passport-twitter": "*",
+      "passport-google": "*",
       "pg": "*",
       "bookshelf": "0.5",
       "node-geocoder": "*"

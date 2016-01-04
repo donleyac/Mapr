@@ -145,10 +145,8 @@ var notFound404 = function(req, res, next)
 };
 
 var loggedIn = function(req,res,next) {
-    if (req.isAuthenticated()) {
-        
-    } else {
-        res.redirect('/signin');
+    if (!req.isAuthenticated()) {
+       res.redirect('/signin');
     }
 };
 

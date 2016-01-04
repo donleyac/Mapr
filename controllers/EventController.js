@@ -1,38 +1,30 @@
-// model
+// Models
 var eventModel = require('./../models/eventModel');
 var categoryModel = require('./../models/categoryModel');
+
+//Controllers
 var userController = require('./UserController');
 
+//Google Maps API Information
+var geocoderProvider = 'google';
+var httpAdapter = 'https';
+var extra = {apiKey: 'AIzaSyBRlE9HTsfYE_QFsg0vyvUUTrF0wEex8Fo'};
+var geocoder = require('node-geocoder')(geocoderProvider, httpAdapter, extra);
 
-// sign up
+
 // GET
 var createEvent = function(req, res, next) {
-
-    console.log(req.user);
+    //User Logged in Check
     userController.loggedIn(req,res,next);
-    console.log("Called the event GET");
-
-       var user = req.user;
-
-      if(user !== undefined) 
-      {
-         user = user.toJSON();
-      }
-      console.log(user);
     res.render('create_event',
         {title: 'Create Event'});
-
-    
 };
 
 //POST
 var createEventPost = function(req, res, next) {
 
-    console.log("Called the event POST");
-
+    //Form Declaration
     var event = req.body;
-   
-
     var user = req.user;
 
     if(user !== undefined) 
@@ -40,33 +32,18 @@ var createEventPost = function(req, res, next) {
      user = user.toJSON();
     }
 
+    //Location Declaration
     var address = event.address_line1 + event.address_line2  + "," + event.city + "," + event.state;
+    var latitude;
+    var longitude;
 
-    var latitude = 0;
-    var longitude = 0;
-
-
-    var geocoderProvider = 'google';
-    var httpAdapter = 'https';
-    // optional
-    var extra = {
-        apiKey: 'AIzaSyBRlE9HTsfYE_QFsg0vyvUUTrF0wEex8Fo'
-    };
-
-    var geocoder = require('node-geocoder')(geocoderProvider, httpAdapter, extra);
-
+    //Address Geocode Promise
     geocoder.geocode(address, function(err, res) {
-
-        console.log(Object.keys(res));
-        //var newRes = res.toJSON();
         latitude = res[0].latitude;
         longitude = res[0].longitude;
-       // var point = [latitude, longitude];
-
     }).then(function(model)
     {
-        console.log("Coordinates are: " + latitude + "," + longitude);
-
+        //Create Event Model
         var createNewEvent = new eventModel.Event(
             {
                 NAME: event.name,
@@ -75,7 +52,10 @@ var createEventPost = function(req, res, next) {
                 ADDRESS_LINE2: event.address_line2,
                 CITY: event.city,
                 STATE_PROVIDENCE: event.state,
-                COORDINATES: [latitude, longitude],
+                //Todo COORDINATES: "ST_GeomFromText('POINT(" + longitude + " " + latitude  + ")',4326)",
+                LONGITUDE: longitude,
+                LATITUDE: latitude,
+                //Todo change price to double-precision
                 PRICE: 10,
                 EVENT_START: event.event_start,
                 EVENT_END: event.event_end,
@@ -83,32 +63,22 @@ var createEventPost = function(req, res, next) {
                 NUM_DIS: 0,
                 HOST_ID: user.USER_ACCOUNT_ID,
                 CATEGORY_ID: 1
+                //Todo Add the status of an event
+                //Todo Add explicit drop to secret_code
             });
-        console.log(createNewEvent);
-
-        createNewEvent.save().then(function(model) 
+        createNewEvent.save().then(function(model)
         {
-
             redirector(req, res, next);
-            //console.log("Created new event model");
-            
         }).otherwise(function(err) {
-       console.log(err.stack);
+            console.log(err.stack);
         });
 
     });
-
-    
-
-
 };
 
-
 var redirector = function(req, res, next) {
-    console.log("Created new event model already");
     res.redirect('/');
 };
 
 module.exports.createEvent = createEvent;
-
 module.exports.createEventPost = createEventPost;
