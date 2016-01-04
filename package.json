@@ -1,8 +1,8 @@
 {
-   "name": "passport_mysql_express_auth",
-   "description": "ExpressJs + Passport.js + MySQL Authentication",
+   "name": "Mapr",
+   "description": "",
    "version": "1.0.0",
-   "author": "",
+   "author": "Alex Donley",
    "main": "app.js",
    "dependencies": {
       "express": "4.x",

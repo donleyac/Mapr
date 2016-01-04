@@ -12,7 +12,7 @@ var index = function(req, res, next)
    if(!req.isAuthenticated()) 
    {
 
-      res.redirect('/signin');
+      res.redirect('/home');
    } else 
    {
       var user = req.user;
@@ -26,20 +26,21 @@ var index = function(req, res, next)
    }
 };
 
-// sign in
-// GET
 var signIn = function(req, res, next) 
 {
-      if(req.isAuthenticated()) res.redirect('/');
-   res.render('signin', 
-      {title: 'Sign In'});
+    if(req.isAuthenticated()) {
+          res.redirect('/');
+    }
+    else {
+          res.render('signin',
+              {title: 'Sign In'});
+      }
 };
 
-// sign in
-// POST
-var signInPost = function(req, res, next) 
+//Todo Remove after moving the signUpPost to passport.js
+var signInPost = function(req, res, next)
 {
-   passport.authenticate('local', 
+   passport.authenticate('local-login',
       { 
          successRedirect: '/',
          failureRedirect: '/signin'}, function(err, user, info) 
@@ -70,22 +71,18 @@ var signInPost = function(req, res, next)
    })(req, res, next);
 };
 
-// sign up
-// GET
 var signUp = function(req, res, next) 
 {
-   if(req.isAuthenticated()) 
+   if(req.isAuthenticated())
    {
       res.redirect('/');
-   } else 
+   } else
    {
-      res.render('signup', 
+      res.render('signup',
          {title: 'Sign Up'});
    }
 };
-
-// sign up
-// POST
+//Todo Move to passport.js as the local signup strategy
 var signUpPost = function(req, res, next) 
 {
    var user = req.body;
@@ -113,18 +110,24 @@ var signUpPost = function(req, res, next)
                PASSWORD: hash,
                NAME: user.name
             });
-
+          console.log('saving');
          signUpUser.save().then(function(model) 
          {
             // sign in the newly registered user
             signInPost(req, res, next);
          });	
       }
+   }).otherwise(function(err) {
+       console.log(err.stack);
    });
 };
 
-// sign out
-var signOut = function(req, res, next) 
+var profile = function(req, res, next){
+
+};
+
+
+var signOut = function(req, res, next)
 {
    if(!req.isAuthenticated()) 
    {
@@ -136,8 +139,7 @@ var signOut = function(req, res, next)
    }
 };
 
-// 404 not found
-var notFound404 = function(req, res, next) 
+var notFound404 = function(req, res, next)
 {
    res.status(404);
    res.render('404', 
@@ -153,6 +155,11 @@ var isLoggedIn = function(req,res,next) {
    res.redirect('/signin');
 };
 
+var home = function (req, res, next) {
+    res.render('home',
+        {title: 'Home Page'});
+};
+
 // export functions
 /**************************************/
 // index
@@ -162,7 +169,7 @@ module.exports.index = index;
 // GET
 module.exports.signIn = signIn;
 // POST
-module.exports.signInPost = signInPost;
+//module.exports.signInPost = signInPost;
 
 // sign up
 // GET
@@ -178,3 +185,8 @@ module.exports.notFound404 = notFound404;
 
 //logged in get
 module.exports.isLoggedIn = isLoggedIn;
+
+//profile get
+module.exports.profile = profile;
+
+module.exports.home = home;
