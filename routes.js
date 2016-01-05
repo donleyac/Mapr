@@ -13,15 +13,19 @@ module.exports = function(app, passport) {
     // signin
     app.get('/signin', userController.signIn);
     //Todo have the sign-in post account for all of the errors in SigninPost
-    app.post('/signin', passport.authenticate('local-login', {
-        successRedirect : '/', // redirect to the secure profile section
+    app.post('/signin', passport.authenticate('local-signin', {
+        successRedirect : '/profile', // redirect to the secure profile section
         failureRedirect : '/signin', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
 
     // signup
     app.get('/signup', userController.signUp);
-    app.post('/signup', userController.signUpPost);
+    app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
 
     //user profile
     app.get('/profile', userController.isLoggedIn, userController.profile);

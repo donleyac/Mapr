@@ -37,40 +37,6 @@ var signIn = function(req, res, next)
       }
 };
 
-//Todo Remove after moving the signUpPost to passport.js
-var signInPost = function(req, res, next)
-{
-   passport.authenticate('local-login',
-      { 
-         successRedirect: '/',
-         failureRedirect: '/signin'}, function(err, user, info) 
-
-         {
-      if(err) 
-      {
-         return res.render('signin', 
-            {title: 'Sign In', errorMessage: err.message});
-      } 
-
-      if(!user) 
-      {
-         return res.render('signin', 
-            {title: 'Sign In', errorMessage: info.message});
-      }
-      return req.logIn(user, function(err) 
-      {
-         if(err) 
-         {
-            return res.render('signin', 
-               {title: 'Sign In', errorMessage: err.message});
-         } else 
-         {
-            return res.redirect('/');
-         }
-      });
-   })(req, res, next);
-};
-
 var signUp = function(req, res, next) 
 {
    if(req.isAuthenticated())
@@ -82,48 +48,11 @@ var signUp = function(req, res, next)
          {title: 'Sign Up'});
    }
 };
-//Todo Move to passport.js as the local signup strategy
-var signUpPost = function(req, res, next) 
-{
-   var user = req.body;
-   var usernamePromise = new Model.User(
-      {EMAIL_ADDRESS: user.username}).fetch();
-
-   return usernamePromise.then(function(model) 
-   {
-      if(model) 
-      {
-         res.render('signup', 
-            {title: 'signup', errorMessage: 'username already exists'});
-      } 
-      else 
-      {
-         //****************************************************//
-         // MORE VALIDATION GOES HERE(E.G. PASSWORD VALIDATION)
-         //****************************************************//
-         var password = user.password;
-         var hash = bcrypt.hashSync(password);
-
-         var signUpUser = new Model.User(
-            {
-               EMAIL_ADDRESS: user.username, 
-               PASSWORD: hash,
-               NAME: user.name
-            });
-          console.log('saving');
-         signUpUser.save().then(function(model) 
-         {
-            // sign in the newly registered user
-            signInPost(req, res, next);
-         });	
-      }
-   }).otherwise(function(err) {
-       console.log(err.stack);
-   });
-};
 
 var profile = function(req, res, next){
-
+   res.render('profile.ejs', {
+      user: req.user // get the user out of session and pass to template
+   });
 };
 
 
@@ -168,14 +97,10 @@ module.exports.index = index;
 // sigin in
 // GET
 module.exports.signIn = signIn;
-// POST
-//module.exports.signInPost = signInPost;
 
 // sign up
 // GET
 module.exports.signUp = signUp;
-// POST
-module.exports.signUpPost = signUpPost;
 
 // sign out
 module.exports.signOut = signOut;
