@@ -2,53 +2,73 @@
 <html lang="en">
     <head>
         <title><%= title %></title>
+         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6lZJ-_tqOG_YaIRZFvWAPU3JPSkH0j-c&callback=initMap"
+            async defer></script>
+
+        <script>
+
+                function initialize() {
+
+                var latitude = <%= event.LAT %>;
+                var longitude = <%= event.LONG %>;
+
+                var latlng = new google.maps.LatLng(latitude, longitude);
+                var mapDiv = document.getElementById('map');
+                var map = new google.maps.Map(mapDiv, {
+                    center: latlng,
+                    zoom: 13,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: "location : Dublin"
+                });
+
+                
+            }
+        </script>
     </head>
-    <body>
+
+    <body onload="initialize();">
 			<p>
                 <label for="name">Event Name: </label>
-    			<label name="Event Name"><%= event.NAME %></label>
+    			<label name="name"><%= event.NAME %></label>
             </p>
             <p>
                 <label for="description">Description</label>
-                <label name="Description"><%= event.Description %></label>
+                <label name="description"><%= event.DESCRIPTION %></label>
             </p>
             <p>
                 <label for="address_line1">Address Line 1</label>
-       
+                <label name="address_line1"><%= event.ADDRESS_LINE1 %></label>
             </p>
             <p>
                 <label for="address_line2">Address Line 2</label>
-            </p>
-            <p>
-                <label for="description">Description</label>
-
-            </p>
-            <p>
-                <label for="address_line1">Address Line 1</label>
-        
-            </p>
-            <p>
-                <label for="address_line2">Address Line 2</label>
+                <label name="address_line2"><%= event.ADDRESS_LINE2 %></label>
             </p>
             <p>
                 <label for="city">City</label>
-
+                <label name="city"><%= event.CITY %></label>
             </p>
             <p>
                 <label for="state">State</label>
+                <label name="state"><%= event.STATE_PROVIDENCE %></label>
             </p>
             <p>
                 <label for="event_start">Event Start</label>
+                <label name="event_start"><%= event.EVENT_STATE %></label>
            
             </p>
             <p>
                 <label for="event_end">Event End</label>
-                
+                <label name="event_end"><%= event.EVENT_END %></label>
             </p>
             <p>
                 <label for="category_name">Category</label>
-      
             </p>
+            <div id="map" style="width:700px;height:500px;"></div>
 
     </body>
 </html>
