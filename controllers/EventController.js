@@ -90,7 +90,6 @@ var viewSingleEvent = function(req, res, next) {
     var event = new eventModel.Event({EVENT_ID : eventID}).fetch().then(function(data)
     {
         var newEvent = data;
-        newEvent = newEvent.toJSON();
         console.log(newEvent);
         res.render('event',
             {title: 'View Event: ', event : newEvent});
